@@ -17,7 +17,7 @@ class ItemAdapter(private val itemData : List<Item>, private val listener : Item
             binding.apply {
                 img.setImageResource(item.image)
                 tvTitle.text = item.title
-                tvSelected.text = if(item.isSelected) "Selected" else "Not Selected"
+                tvSelected.text = if(item.isSelected) "Selected" else "Unselected"
                 root.setOnClickListener {
                     listener.onItemClick(item, adapterPosition)
                 }

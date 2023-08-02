@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.View
 import android.widget.Toast
 import androidx.lifecycle.ViewModel
+import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -35,7 +36,22 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        binding.recyclerView.layoutManager = LinearLayoutManager(this)
+        initButton();
+        initRecyclerView()
+
+         setUpSwipeActions()
+
+    }
+    private fun initButton(){
+        binding.btnGrid.setOnClickListener{
+            binding.recyclerView.layoutManager = GridLayoutManager(this, 2)
+        }
+        binding.btnList.setOnClickListener{
+            binding.recyclerView.layoutManager = LinearLayoutManager(this)
+        }
+    }
+
+    private fun initRecyclerView(){
         binding.recyclerView.adapter = ItemAdapter(itemData, object : ItemListener{
             override fun onItemClick(item : Item, position: Int) {
                 Toast.makeText(
@@ -55,16 +71,11 @@ class MainActivity : AppCompatActivity() {
                 ).show()
             }
         })
-
-         setUpSwipeActions()
-
     }
-
-
     private fun setUpSwipeActions(){
         val touchHelper = ItemTouchHelper(
             object : ItemTouchHelper.SimpleCallback(
-                ItemTouchHelper.UP or ItemTouchHelper.DOWN,
+                0,
                 ItemTouchHelper.LEFT or ItemTouchHelper.RIGHT
             ){
                 override fun onMove(
