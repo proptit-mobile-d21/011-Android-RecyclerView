@@ -32,9 +32,9 @@ class ItemAdapter(private val itemData : List<Item>, private val listener : Item
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ItemViewHolder {
         return ItemViewHolder(
             ItemCircleBinding.inflate(
-                LayoutInflater.from(parent.context), parent, false), listener)
+                LayoutInflater.from(parent.context), parent, false),
+            listener)
     }
-
     override fun getItemCount(): Int {
         if(itemData != null){
             return itemData.size
