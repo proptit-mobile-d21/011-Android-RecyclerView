@@ -3,6 +3,7 @@ package dev.proptit.recyclerview.Adapter
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import androidx.viewbinding.ViewBinding
 import dev.proptit.recyclerview.Listener.ItemListener
 import dev.proptit.recyclerview.Model.Topic
 import dev.proptit.recyclerview.databinding.ItemCircleBinding
@@ -14,38 +15,39 @@ class ItemAdapter(private val itemData : List<Topic>, private val listener : Ite
         const val TYPE_HEADER = 0
         const val TYPE_ITEM = 1
     }
-
-    class ItemViewHolder(private val binding: ItemCircleBinding, private val listener : ItemListener) : RecyclerView.ViewHolder(binding.root){
-        fun bind(item : Topic.Item){
-            binding.apply {
-                img.setImageResource(item.image)
-                tvTitle.text = item.title
-                tvSelected.text = if(item.isSelected) "Selected" else "Unselected"
-                root.setOnClickListener {
-                    listener.onItemClick(item, adapterPosition)
+    sealed class ViewHolder(binding : ViewBinding) : RecyclerView.ViewHolder(binding.root){
+        class ItemViewHolder(private val binding: ItemCircleBinding, private val listener : ItemListener) : RecyclerView.ViewHolder(binding.root){
+            fun bind(item : Topic.Item){
+                binding.apply {
+                    img.setImageResource(item.image)
+                    tvTitle.text = item.title
+                    tvSelected.text = if(item.isSelected) "Selected" else "Unselected"
+                    root.setOnClickListener {
+                        listener.onItemClick(item, adapterPosition)
+                    }
+                    root.setOnLongClickListener {
+                        listener.onItemLongClick(item, adapterPosition)
+                        true
+                    }
                 }
-                root.setOnLongClickListener {
-                    listener.onItemLongClick(item, adapterPosition)
-                    true
-                }
+            }
+        }
+        class HeaderViewHolder(private val binding : ItemHeaderBinding) : RecyclerView.ViewHolder(binding.root){
+            fun bind(header : Topic.Header){
+                binding.root.text = header.header
             }
         }
     }
 
-    class HeaderViewHolder(private val binding : ItemHeaderBinding) : RecyclerView.ViewHolder(binding.root){
-        fun bind(header : Topic.Header){
-            binding.root.text = header.header
-        }
-    }
 
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         when(holder){
-            is ItemViewHolder -> {
+            is ViewHolder.ItemViewHolder -> {
                 val item = itemData[position] as Topic.Item
                 holder.bind(item)
             }
-            is HeaderViewHolder -> {
+            is ViewHolder.HeaderViewHolder -> {
                 val header = itemData[position] as Topic.Header
                 holder.bind(header)
             }
@@ -56,12 +58,12 @@ class ItemAdapter(private val itemData : List<Topic>, private val listener : Ite
         return when (viewType){
             TYPE_HEADER -> {
                 val binding = ItemHeaderBinding.inflate(LayoutInflater.from(parent.context), parent, false)
-                HeaderViewHolder(binding)
+                ViewHolder.HeaderViewHolder(binding)
             }
 
             TYPE_ITEM -> {
                 val binding = ItemCircleBinding.inflate(LayoutInflater.from(parent.context), parent, false)
-                ItemViewHolder(binding, listener)
+                ViewHolder.ItemViewHolder(binding, listener)
             }
 
             else -> throw IllegalArgumentException("Invalid view type")

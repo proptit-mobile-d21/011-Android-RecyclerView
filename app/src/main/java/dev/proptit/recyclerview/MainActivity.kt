@@ -94,7 +94,7 @@ class MainActivity : AppCompatActivity() {
 
                 override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
                     val position = viewHolder.adapterPosition
-                    val item = itemData[position] as Topic.Item
+                    val item = itemData[position]
                     if(item is Topic.Item){
                         itemData.removeAt(position)
                         binding.recyclerView.adapter?.notifyItemRemoved(position)
@@ -104,6 +104,9 @@ class MainActivity : AppCompatActivity() {
                                 itemData.add(position, item)
                                 binding.recyclerView.adapter?.notifyItemInserted(position)
                             }.show()
+                    }
+                    else{
+                        binding.recyclerView.adapter?.notifyItemChanged(position)
                     }
 
                 }
