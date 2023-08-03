@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.LayoutManager
+import dev.proptit.recyclerview.databinding.FragmentRecyclerViewBinding
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -25,6 +26,7 @@ class RecyclerViewFragment : Fragment() {
     private var param1: String? = null
     private var param2: String? = null
 
+    private lateinit var binding: FragmentRecyclerViewBinding
     private lateinit var mRecyclerView : RecyclerView
     private lateinit var mCustomAdapter: CustomAdapter
     private lateinit var mLayoutManager: LayoutManager
@@ -53,6 +55,10 @@ class RecyclerViewFragment : Fragment() {
         return rootView
     }
 
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+    }
+
     companion object {
         /**
          * Use this factory method to create a new instance of
@@ -76,9 +82,10 @@ class RecyclerViewFragment : Fragment() {
     private fun initDataSet(){
         mDataSet = Array<DataSet>(DATASET_COUNT){ i ->
             DataSet(
-                mTitle = "Title $i",
+                mTitle = "Title ${i + 1}",
                 mSelected = "unselected",
-                mImageName = "image_$i", // Replace this with the actual image URLs
+                mImageName = "image_${i + 1}",
+                mIsSelected = false
             )
         }
     }
