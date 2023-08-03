@@ -10,27 +10,26 @@ import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.snackbar.Snackbar
 import dev.proptit.recyclerview.Adapter.ItemAdapter
 import dev.proptit.recyclerview.Listener.ItemListener
-import dev.proptit.recyclerview.Model.Header
-import dev.proptit.recyclerview.Model.Item
+import dev.proptit.recyclerview.Model.Topic
 import dev.proptit.recyclerview.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
     private lateinit var binding : ActivityMainBinding
     private val itemData = mutableListOf(
-        Header("Sticky Header 1"),
-        Item(R.drawable.profile, "Title 1", "Unselected"),
-        Item(R.drawable.profile, "Title 2", "Unselected"),
-        Item(R.drawable.profile, "Title 3", "Unselected"),
-        Header("Sticky Header 2"),
-        Item(R.drawable.profile, "Title 4", "Unselected"),
-        Item(R.drawable.profile, "Title 5", "Unselected"),
-        Item(R.drawable.profile, "Title 6", "Unselected"),
-        Header("Sticky Header 3"),
-        Item(R.drawable.profile, "Title 7", "Unselected"),
-        Item(R.drawable.profile, "Title 8", "Unselected"),
-        Item(R.drawable.profile, "Title 9", "Unselected"),
-        Header("Sticky Header 4"),
-        Item(R.drawable.profile, "Title 10", "Unselected"),
+        Topic.Header("Sticky Header 1"),
+        Topic.Item(R.drawable.profile, "Title 1", "Unselected"),
+        Topic.Item(R.drawable.profile, "Title 2", "Unselected"),
+        Topic.Item(R.drawable.profile, "Title 3", "Unselected"),
+        Topic.Header("Sticky Header 2"),
+        Topic.Item(R.drawable.profile, "Title 4", "Unselected"),
+        Topic.Item(R.drawable.profile, "Title 5", "Unselected"),
+        Topic.Item(R.drawable.profile, "Title 6", "Unselected"),
+        Topic.Header("Sticky Header 3"),
+        Topic.Item(R.drawable.profile, "Title 7", "Unselected"),
+        Topic.Item(R.drawable.profile, "Title 8", "Unselected"),
+        Topic.Item(R.drawable.profile, "Title 9", "Unselected"),
+        Topic.Header("Sticky Header 4"),
+        Topic.Item(R.drawable.profile, "Title 10", "Unselected"),
     )
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -56,7 +55,7 @@ class MainActivity : AppCompatActivity() {
 
     private fun initRecyclerView(){
         binding.recyclerView.adapter = ItemAdapter(itemData, object : ItemListener{
-            override fun onItemClick(item : Item, position: Int) {
+            override fun onItemClick(item : Topic.Item, position: Int) {
                 Toast.makeText(
                     this@MainActivity,
                     "${item.title} Clicked",
@@ -64,7 +63,7 @@ class MainActivity : AppCompatActivity() {
                 ).show()
             }
 
-            override fun onItemLongClick(item : Item, position: Int) {
+            override fun onItemLongClick(item : Topic.Item, position: Int) {
                 item.isSelected = item.isSelected xor true
                 binding.recyclerView.adapter?.notifyItemChanged(position)
                 Toast.makeText(
@@ -95,8 +94,8 @@ class MainActivity : AppCompatActivity() {
 
                 override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
                     val position = viewHolder.adapterPosition
-                    val item = itemData[position] as Item
-                    if(item is Item){
+                    val item = itemData[position] as Topic.Item
+                    if(item is Topic.Item){
                         itemData.removeAt(position)
                         binding.recyclerView.adapter?.notifyItemRemoved(position)
                         val message = "${item.title} Deleted"

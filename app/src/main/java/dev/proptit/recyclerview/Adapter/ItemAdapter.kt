@@ -3,13 +3,12 @@ package dev.proptit.recyclerview.Adapter
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import dev.proptit.recyclerview.Model.Item
 import dev.proptit.recyclerview.Listener.ItemListener
-import dev.proptit.recyclerview.Model.Header
+import dev.proptit.recyclerview.Model.Topic
 import dev.proptit.recyclerview.databinding.ItemCircleBinding
 import dev.proptit.recyclerview.databinding.ItemHeaderBinding
 
-class ItemAdapter(private val itemData : List<Any>, private val listener : ItemListener) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+class ItemAdapter(private val itemData : List<Topic>, private val listener : ItemListener) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     companion object{
         const val TYPE_HEADER = 0
@@ -17,7 +16,7 @@ class ItemAdapter(private val itemData : List<Any>, private val listener : ItemL
     }
 
     class ItemViewHolder(private val binding: ItemCircleBinding, private val listener : ItemListener) : RecyclerView.ViewHolder(binding.root){
-        fun bind(item : Item){
+        fun bind(item : Topic.Item){
             binding.apply {
                 img.setImageResource(item.image)
                 tvTitle.text = item.title
@@ -34,7 +33,7 @@ class ItemAdapter(private val itemData : List<Any>, private val listener : ItemL
     }
 
     class HeaderViewHolder(private val binding : ItemHeaderBinding) : RecyclerView.ViewHolder(binding.root){
-        fun bind(header : Header){
+        fun bind(header : Topic.Header){
             binding.root.text = header.header
         }
     }
@@ -43,11 +42,11 @@ class ItemAdapter(private val itemData : List<Any>, private val listener : ItemL
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         when(holder){
             is ItemViewHolder -> {
-                val item = itemData[position] as Item
+                val item = itemData[position] as Topic.Item
                 holder.bind(item)
             }
             is HeaderViewHolder -> {
-                val header = itemData[position] as Header
+                val header = itemData[position] as Topic.Header
                 holder.bind(header)
             }
         }
@@ -70,7 +69,7 @@ class ItemAdapter(private val itemData : List<Any>, private val listener : ItemL
     }
 
     override fun getItemViewType(position: Int): Int {
-        if(itemData[position] is Header){
+        if(itemData[position] is Topic.Header){
             return TYPE_HEADER
         }
         return TYPE_ITEM
