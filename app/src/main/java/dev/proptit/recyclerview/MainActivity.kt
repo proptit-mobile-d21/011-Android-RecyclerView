@@ -30,10 +30,7 @@ class MainActivity : AppCompatActivity() {
         itemList.add(ItemModel("Sticky Header 2", R.drawable.image_5, "Title 11", "unselected"))
         itemList.add(ItemModel("Sticky Header 2", R.drawable.image_6, "Title 12", "unselected"))
 
-        // Create the adapter
         val userAdapter = UserAdapter(itemList)
-
-        // Set the adapter to the StickyListHeadersListView
         binding.stickyListView.adapter = userAdapter
     }
 

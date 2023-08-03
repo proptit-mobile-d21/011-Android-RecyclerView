@@ -1,18 +1,22 @@
 package dev.proptit.recyclerview
 
+import android.content.ClipData
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.BaseAdapter
 import android.widget.ImageView
 import android.widget.TextView
+import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import dev.proptit.recyclerview.databinding.ItemBinding
 import se.emilsjolander.stickylistheaders.StickyListHeadersAdapter
 
+
 data class ItemModel(val headerText: String, val resourceId: Int, val title: String, val status: String)
 
 class UserAdapter(private val listItem: List<ItemModel>) : BaseAdapter(), StickyListHeadersAdapter {
+
     override fun getCount(): Int {
         return listItem.size
     }
@@ -37,6 +41,13 @@ class UserAdapter(private val listItem: List<ItemModel>) : BaseAdapter(), Sticky
         val image: ImageView = view.findViewById(R.id.image)
         image.setImageResource(item.resourceId)
 
+        view.setOnClickListener {
+            if (view.findViewById<TextView>(R.id.status).text.toString().equals("selected")) {
+                view.findViewById<TextView>(R.id.status).setText("unselected")
+            } else {
+                view.findViewById<TextView>(R.id.status).setText("selected")
+            }
+        }
         return view
     }
 
@@ -54,6 +65,7 @@ class UserAdapter(private val listItem: List<ItemModel>) : BaseAdapter(), Sticky
     override fun getHeaderId(position: Int): Long {
         return listItem[position].headerText.subSequence(0,15).hashCode().toLong()
     }
+
 
 }
 
