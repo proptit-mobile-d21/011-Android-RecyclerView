@@ -46,7 +46,16 @@ class MainActivity : AppCompatActivity() {
     }
     private fun initButton(){
         binding.btnGrid.setOnClickListener{
-            binding.recyclerView.layoutManager = GridLayoutManager(this, 2)
+            binding.recyclerView.layoutManager = GridLayoutManager(this, 2).apply {
+                spanSizeLookup = object : GridLayoutManager.SpanSizeLookup(){
+                    override fun getSpanSize(position: Int): Int {
+                        return when(itemData[position]){
+                            is Topic.Header -> 2
+                            is Topic.Item -> 1
+                        }
+                    }
+                }
+            }
         }
         binding.btnList.setOnClickListener{
             binding.recyclerView.layoutManager = LinearLayoutManager(this)
