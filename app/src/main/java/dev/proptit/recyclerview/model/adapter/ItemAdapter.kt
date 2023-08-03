@@ -1,11 +1,11 @@
 package dev.proptit.recyclerview.model.adapter
 
+import android.content.res.Resources
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
-import androidx.recyclerview.widget.RecyclerView.OnItemTouchListener
+import dev.proptit.recyclerview.R
 import dev.proptit.recyclerview.databinding.ItemViewBinding
 import dev.proptit.recyclerview.model.Item
 
@@ -15,9 +15,22 @@ class ItemAdapter(
 
     inner class ItemViewHolder(val binding: ItemViewBinding) : RecyclerView.ViewHolder(binding.root){
         init {
-            binding.root.setOnClickListener {v: View ->
+            binding.root.setOnClickListener {
                 val pos: Int = adapterPosition
-                Toast.makeText(binding.root.context, "Item #${pos+1} is selected", Toast.LENGTH_SHORT).show()
+                Toast.makeText(binding.root.context, "Item #${pos+1} is clicked", Toast.LENGTH_SHORT).show()
+            }
+            binding.root.setOnLongClickListener {
+                val pos: Int = adapterPosition
+                if(items[pos].getState()){
+                    Toast.makeText(binding.root.context, "Item #${pos+1} is unselected", Toast.LENGTH_SHORT).show()
+                    binding.tvSubtitle.text = Resources.getSystem().getString(R.string.unseclected)
+                    items[pos].setState(false)
+                }else{
+                    Toast.makeText(binding.root.context, "Item #${pos+1} is selected", Toast.LENGTH_SHORT).show()
+                    binding.tvSubtitle.text = Resources.getSystem().getString(R.string.selected)
+                    items[pos].setState(true)
+                }
+                true
             }
         }
     }
