@@ -2,6 +2,8 @@ package dev.proptit.recyclerview.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import android.widget.ImageView
+import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewbinding.ViewBinding
 import dev.proptit.recyclerview.databinding.RcvItemHeaderBinding
@@ -11,8 +13,6 @@ import dev.proptit.recyclerview.model.Header
 import dev.proptit.recyclerview.model.IOptionListener
 import dev.proptit.recyclerview.model.Item
 import dev.proptit.recyclerview.model.Option
-
-
 
 class MyAdapter(private val list: List<Item>, private val optionListener: IOptionListener):
     RecyclerView.Adapter<RecyclerView.ViewHolder>() {
@@ -36,13 +36,21 @@ class MyAdapter(private val list: List<Item>, private val optionListener: IOptio
                 val binding: RcvItemOptionLinearBinding = RcvItemOptionLinearBinding.inflate(
                     LayoutInflater.from(parent.context), parent, false
                 )
-                OptionLinearViewHolder(binding, optionListener)
+                object : OptionViewHolder(binding, optionListener) {
+                    override val icon: ImageView = binding.rcvOptionIcon
+                    override val title: TextView = binding.rcvOptionTitle
+                    override val selectedText: TextView = binding.rcvOptionSelectedTxt
+                }
             }
             ITEM_OPTION_GRID -> {
                 val binding: RcvItemOptionGridBinding = RcvItemOptionGridBinding.inflate(
                     LayoutInflater.from(parent.context), parent, false
                 )
-                OptionGridViewHolder(binding, optionListener)
+                object : OptionViewHolder(binding, optionListener) {
+                    override val icon: ImageView = binding.rcvOptionIcon
+                    override val title: TextView = binding.rcvOptionTitle
+                    override val selectedText: TextView = binding.rcvOptionSelectedTxt
+                }
             }
             else -> throw IllegalArgumentException("Unknown viewType: $viewType")
         }
@@ -51,8 +59,7 @@ class MyAdapter(private val list: List<Item>, private val optionListener: IOptio
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         when (getItemViewType(position)) {
             ITEM_HEADER -> (holder as HeaderViewHolder).bind(list[position] as Header)
-            ITEM_OPTION_LINEAR -> (holder as OptionLinearViewHolder).bind(list[position] as Option, position)
-            ITEM_OPTION_GRID -> (holder as OptionGridViewHolder).bind(list[position] as Option, position)
+            else -> (holder as OptionViewHolder).bind(list[position] as Option, position)
         }
     }
 
@@ -66,7 +73,7 @@ class MyAdapter(private val list: List<Item>, private val optionListener: IOptio
 
     override fun getItemCount(): Int = list.size
 
-    class HeaderViewHolder(private val binding: RcvItemHeaderBinding) :
+    private class HeaderViewHolder(private val binding: RcvItemHeaderBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
         fun bind(header: Header) {
@@ -74,43 +81,24 @@ class MyAdapter(private val list: List<Item>, private val optionListener: IOptio
         }
     }
 
-    abstract class OptionViewHolder(
+    private abstract class OptionViewHolder(
         private val binding: ViewBinding,
         private val optionListener: IOptionListener
     ) : RecyclerView.ViewHolder(binding.root) {
 
-        open fun bind(option: Option, position: Int) {
+        protected abstract val icon: ImageView
+        protected abstract val title: TextView
+        protected abstract val selectedText: TextView
+
+        fun bind(option: Option, position: Int) {
+            icon.setImageResource(option.icon)
+            title.text = option.title
+            selectedText.text = if (option.isSelected) "selected" else "unselected"
             binding.root.setOnClickListener { optionListener.onClick(option) }
             binding.root.setOnLongClickListener {
                 optionListener.onLongClick(option, position)
                 true
             }
-        }
-    }
-
-    class OptionLinearViewHolder(
-        private val binding: RcvItemOptionLinearBinding,
-        optionListener: IOptionListener
-    ) : OptionViewHolder(binding, optionListener) {
-
-        override fun bind(option: Option, position: Int) {
-            super.bind(option, position)
-            binding.rcvOptionIcon.setImageResource(option.icon)
-            binding.rcvOptionTitle.text = option.title
-            binding.rcvOptionSelectedTxt.text = if (option.isSelected) "selected" else "unselected"
-        }
-    }
-
-    class OptionGridViewHolder(
-        private val binding: RcvItemOptionGridBinding,
-        optionListener: IOptionListener
-    ) : OptionViewHolder(binding, optionListener) {
-
-        override fun bind(option: Option, position: Int) {
-            super.bind(option, position)
-            binding.rcvOptionIcon.setImageResource(option.icon)
-            binding.rcvOptionTitle.text = option.title
-            binding.rcvOptionSelectedTxt.text = if (option.isSelected) "selected" else "unselected"
         }
     }
 }

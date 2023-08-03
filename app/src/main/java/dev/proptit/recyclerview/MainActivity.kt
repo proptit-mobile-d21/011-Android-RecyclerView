@@ -1,5 +1,6 @@
 package dev.proptit.recyclerview
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
@@ -36,6 +37,7 @@ class MainActivity : AppCompatActivity() {
         binding.gridLayoutBtn.setOnClickListener { changeToGridLayout() }
     }
 
+    @SuppressLint("NotifyDataSetChanged")
     private fun changeToListLayout() {
         val adapter: MyAdapter = binding.mainRcv.adapter as MyAdapter
         if (adapter.usingGridLayout) {
@@ -45,6 +47,7 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    @SuppressLint("NotifyDataSetChanged")
     private fun changeToGridLayout() {
         val adapter: MyAdapter = binding.mainRcv.adapter as MyAdapter
         if (!adapter.usingGridLayout) {
