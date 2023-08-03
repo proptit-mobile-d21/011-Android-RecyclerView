@@ -1,12 +1,14 @@
 package dev.proptit.recyclerview
 
 import android.os.Bundle
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import dev.proptit.recyclerview.adapter.MyAdapter
 import dev.proptit.recyclerview.databinding.ActivityMainBinding
 import dev.proptit.recyclerview.model.Item
+import dev.proptit.recyclerview.model.ItemClickListener
 
 class MainActivity : AppCompatActivity() {
 
@@ -24,14 +26,27 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun setRecyclerDisplay() {
-        recyclerView = binding.recyclerView
-        addItem()
-
-        mAdapter = MyAdapter(itemList)
-        recyclerView.adapter = mAdapter
-
         val layoutManager = LinearLayoutManager(this)
-        recyclerView.layoutManager = layoutManager
+        recyclerView = binding.recyclerView.apply {
+            addItem()
+            mAdapter = MyAdapter(itemList, object : ItemClickListener {
+                override fun onItemClick(item: Item) {
+                    Toast.makeText(context, "${item.title} clicked", Toast.LENGTH_SHORT)
+                        .show()
+                }
+
+                override fun onItemLongClick(item: Item) {
+                    val toastMessage = if (item.isSelected) {
+                        "${item.title} selected"
+                    } else {
+                        "${item.title} deselected"
+                    }
+                    Toast.makeText(context, toastMessage, Toast.LENGTH_SHORT).show()
+                }
+            })
+            adapter = mAdapter
+            this.layoutManager = layoutManager
+        }
     }
 
     private fun addItem() {
