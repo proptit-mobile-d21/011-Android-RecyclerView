@@ -1,11 +1,7 @@
 package dev.proptit.recyclerview.model
 
-class Item(
+data class Item(
     val title: String,
+    val subtitle: String,
     val image: Int
-){
-    val subtitle: String
-    init {
-        subtitle = "unselected"
-    }
-}
+)
