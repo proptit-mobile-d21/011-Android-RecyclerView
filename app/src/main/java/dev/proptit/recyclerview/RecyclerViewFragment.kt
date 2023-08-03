@@ -5,6 +5,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.LayoutManager
 
@@ -27,7 +28,7 @@ class RecyclerViewFragment : Fragment() {
     private lateinit var mRecyclerView : RecyclerView
     private lateinit var mCustomAdapter: CustomAdapter
     private lateinit var mLayoutManager: LayoutManager
-    private lateinit var mDataSet: Array<String>
+    private var mDataSet: Array<DataSet>? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -43,7 +44,13 @@ class RecyclerViewFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_recycler_view, container, false)
+        val rootView =  inflater.inflate(R.layout.fragment_recycler_view, container, false)
+        mRecyclerView = rootView.findViewById(R.id.recycler_view)
+        mLayoutManager = LinearLayoutManager(activity)
+        mRecyclerView.layoutManager = mLayoutManager
+        mCustomAdapter = CustomAdapter(mDataSet)
+        mRecyclerView.adapter = mCustomAdapter
+        return rootView
     }
 
     companion object {
@@ -67,8 +74,12 @@ class RecyclerViewFragment : Fragment() {
     }
 
     private fun initDataSet(){
-        for(i in 0..(DATASET_COUNT-1)){
-            mDataSet[i] = "Title " + i.toString()
+        mDataSet = Array<DataSet>(DATASET_COUNT){ i ->
+            DataSet(
+                mTitle = "Title $i",
+                mSelected = "unselected",
+                mImageName = "image_$i", // Replace this with the actual image URLs
+            )
         }
     }
 }
