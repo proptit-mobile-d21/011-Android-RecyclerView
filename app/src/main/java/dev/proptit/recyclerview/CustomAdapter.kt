@@ -4,18 +4,17 @@ import android.graphics.drawable.Drawable
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
 import android.widget.TextView
-import androidx.cardview.widget.CardView
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.imageview.ShapeableImageView
 
 
 class CustomAdapter(private val mDataSet : Array<DataSet>?) : RecyclerView.Adapter<CustomAdapter.ViewHolder>() {
     class ViewHolder(view : View) : RecyclerView.ViewHolder(view){
         val titleTextView : TextView
         val selectedTextView : TextView
-        val imageView : CardView
+        val imageView : ShapeableImageView
         init{
             titleTextView = view.findViewById(R.id.title_text_view)
             selectedTextView = view.findViewById(R.id.selected_text_view)
