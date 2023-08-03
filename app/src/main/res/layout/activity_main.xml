@@ -11,7 +11,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
-        android:text="List layout"
+        android:text="@string/list"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -20,7 +20,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
-        android:text="Grid Layout"
+        android:text="@string/grid"
         app:layout_constraintStart_toEndOf="@+id/btnList"
         app:layout_constraintTop_toTopOf="parent" />
 

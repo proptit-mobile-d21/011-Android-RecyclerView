@@ -7,52 +7,51 @@ import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import dev.proptit.recyclerview.R
 import dev.proptit.recyclerview.databinding.ItemViewBinding
-import dev.proptit.recyclerview.model.Item
+import dev.proptit.recyclerview.databinding.StickyHeaderBinding
+import dev.proptit.recyclerview.model.data.Item
 
 class ItemAdapter(
     private val items: MutableList<Item>,
-) : RecyclerView.Adapter<ItemAdapter.ItemViewHolder>() {
+) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
-    inner class ItemViewHolder(val binding: ItemViewBinding) : RecyclerView.ViewHolder(binding.root){
-        init {
-            binding.root.setOnClickListener {
-                val pos: Int = adapterPosition
-                Toast.makeText(binding.root.context, "Item #${pos+1} is clicked", Toast.LENGTH_SHORT).show()
-            }
-            binding.root.setOnLongClickListener {
-                val pos: Int = adapterPosition
-                if(items[pos].getState()){
-                    Toast.makeText(binding.root.context, "Item #${pos+1} is unselected", Toast.LENGTH_SHORT).show()
-                    binding.tvSubtitle.text = Resources.getSystem().getString(R.string.unseclected)
-                    items[pos].setState(false)
-                }else{
-                    Toast.makeText(binding.root.context, "Item #${pos+1} is selected", Toast.LENGTH_SHORT).show()
-                    binding.tvSubtitle.text = Resources.getSystem().getString(R.string.selected)
-                    items[pos].setState(true)
-                }
-                true
-            }
-        }
+    companion object{
+        const val FIRST_VIEW = 1
+        const val SECOND_VIEW = 2
     }
 
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ItemViewHolder {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         val layoutInflater = LayoutInflater.from(parent.context)
-        val binding = ItemViewBinding.inflate(layoutInflater, parent, false)
-        return ItemViewHolder(binding)
-    }
 
-    override fun onBindViewHolder(holder: ItemViewHolder, position: Int) {
-        holder.binding.apply {
-            tvTitle.text = items[position].title
-            tvSubtitle.text = items[position].subtitle
-            ivAvatar.setImageResource(items[position].image)
+        return when(viewType){
+            FIRST_VIEW -> FirstViewHolder(ItemViewBinding.inflate(layoutInflater, parent, false), items)
+            SECOND_VIEW -> SecondViewHolder(StickyHeaderBinding.inflate(layoutInflater, parent, false))
+            else -> throw IllegalArgumentException(viewType.toString())
         }
     }
+
+    override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
+        return when(items[position].viewType){
+            FIRST_VIEW -> (holder as FirstViewHolder).bind(items[position])
+            SECOND_VIEW -> (holder as SecondViewHolder).bind(items[position])
+            else -> throw IllegalArgumentException("Invalid item type")
+        }
+    }
+
+//    override fun onBindViewHolder(holder: ItemViewHolder, position: Int) {
+//        holder.binding.apply {
+//            tvTitle.text = items[position].title
+//            tvSubtitle.text = items[position].subtitle
+//            ivAvatar.setImageResource(items[position].image)
+//        }
+//    }
 
     override fun getItemCount(): Int {
         return items.size
     }
 
+    override fun getItemViewType(position: Int): Int {
+        return items[position].viewType
+    }
 
 }
