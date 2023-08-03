@@ -1,3 +1,5 @@
+import org.jetbrains.kotlin.kapt3.base.Kapt.kapt
+
 plugins {
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
@@ -6,7 +8,9 @@ plugins {
 android {
     namespace = "dev.proptit.recyclerview"
     compileSdk = 33
-
+    buildFeatures {
+        viewBinding = true
+    }
     defaultConfig {
         applicationId = "dev.proptit.recyclerview"
         minSdk = 24
