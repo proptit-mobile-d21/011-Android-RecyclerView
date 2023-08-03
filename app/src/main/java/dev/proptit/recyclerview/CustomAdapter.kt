@@ -7,16 +7,15 @@ import android.view.View.OnLongClickListener
 import android.view.ViewGroup
 import android.widget.TextView
 import android.widget.Toast
-import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.imageview.ShapeableImageView
 
 
 class CustomAdapter(private val mDataSet : Array<DataSet>?) : RecyclerView.Adapter<CustomAdapter.ViewHolder>() {
     class ViewHolder(view : View, private val dataSet: Array<DataSet>?) : RecyclerView.ViewHolder(view), OnClickListener, OnLongClickListener{
-        val titleTextView : TextView
-        val selectedTextView : TextView
-        val imageView : ShapeableImageView
+        private val titleTextView : TextView
+        private val selectedTextView : TextView
+        private val imageView : ShapeableImageView
 
         init{
             titleTextView = view.findViewById(R.id.title_text_view)
@@ -35,9 +34,8 @@ class CustomAdapter(private val mDataSet : Array<DataSet>?) : RecyclerView.Adapt
         }
         fun setImageView(imageName: String){
             val drawableResId = imageView.context.resources.getIdentifier(imageName, "drawable", imageView.context.packageName)
-            imageView.background = ContextCompat.getDrawable(imageView.context, drawableResId)
+            imageView.setImageResource(drawableResId)
         }
-
         override fun onClick(view: View?) {
             val position: Int = layoutPosition
             if (position >= 0) {
@@ -49,8 +47,8 @@ class CustomAdapter(private val mDataSet : Array<DataSet>?) : RecyclerView.Adapt
             if (position >= 0) {
                 val selectedItem = dataSet?.get(position)
                 if (selectedItem?.mIsSelected == true) {
-                    Toast.makeText(view?.context, "Item ${layoutPosition + 1} unselected", Toast.LENGTH_SHORT).show()
-                    selectedItem?.mIsSelected = false
+                    Toast.makeText(view?.context, "Item ${layoutPosition + 1} deselected", Toast.LENGTH_SHORT).show()
+                    selectedItem.mIsSelected = false
                     setSelectedTextView("unselected")
                 } else {
                     Toast.makeText(view?.context, "Item ${layoutPosition + 1} selected", Toast.LENGTH_SHORT).show()
@@ -61,7 +59,6 @@ class CustomAdapter(private val mDataSet : Array<DataSet>?) : RecyclerView.Adapt
             }
             return false
         }
-
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {

@@ -1,5 +1,7 @@
 package dev.proptit.recyclerview
 
+import android.content.Context
+import android.content.res.AssetManager
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -8,7 +10,8 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.LayoutManager
-import dev.proptit.recyclerview.databinding.FragmentRecyclerViewBinding
+import com.google.gson.Gson
+import org.json.JSONObject
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -26,8 +29,7 @@ class RecyclerViewFragment : Fragment() {
     private var param1: String? = null
     private var param2: String? = null
 
-    private lateinit var binding: FragmentRecyclerViewBinding
-    private lateinit var mRecyclerView : RecyclerView
+    private lateinit var mRecyclerView: RecyclerView
     private lateinit var mCustomAdapter: CustomAdapter
     private lateinit var mLayoutManager: LayoutManager
     private var mDataSet: Array<DataSet>? = null
@@ -46,7 +48,7 @@ class RecyclerViewFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        val rootView =  inflater.inflate(R.layout.fragment_recycler_view, container, false)
+        val rootView = inflater.inflate(R.layout.fragment_recycler_view, container, false)
         mRecyclerView = rootView.findViewById(R.id.recycler_view)
         mLayoutManager = LinearLayoutManager(activity)
         mRecyclerView.layoutManager = mLayoutManager
@@ -58,6 +60,7 @@ class RecyclerViewFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
     }
+
 
     companion object {
         /**
@@ -79,14 +82,12 @@ class RecyclerViewFragment : Fragment() {
             }
     }
 
-    private fun initDataSet(){
-        mDataSet = Array<DataSet>(DATASET_COUNT){ i ->
-            DataSet(
-                mTitle = "Title ${i + 1}",
-                mSelected = "unselected",
-                mImageName = "image_${i + 1}",
-                mIsSelected = false
-            )
-        }
+    private fun initDataSet() {
+        val gson = Gson()
+        val json = this.requireContext().assets.readAssetsFile("items.json")
+        mDataSet = gson.fromJson(json, Array<DataSet>::class.java)
     }
+
+    fun AssetManager.readAssetsFile(fileName : String): String = open(fileName).bufferedReader().use{it.readText()}
+
 }
