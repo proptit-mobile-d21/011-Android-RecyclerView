@@ -24,13 +24,14 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun initBehaviour() {
-        binding.mainRcv.layoutManager = LinearLayoutManager(applicationContext)
+        binding.mainRcv.apply {
+            layoutManager = LinearLayoutManager(applicationContext)
+            adapter = MyAdapter(Dataset.get(), object : IOptionListener {
+                override fun onClick(option: Option) { optionOnClick(option) }
 
-        binding.mainRcv.adapter = MyAdapter(Dataset.get(), object : IOptionListener {
-            override fun onClick(option: Option) { optionOnClick(option) }
-
-            override fun onLongClick(option: Option, position: Int) { optionOnLongClick(option, position) }
-        })
+                override fun onLongClick(option: Option, position: Int) { optionOnLongClick(option, position) }
+            })
+        }
 
         binding.listLayoutBtn.setOnClickListener { changeToListLayout() }
 

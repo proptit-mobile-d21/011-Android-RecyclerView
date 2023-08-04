@@ -82,20 +82,20 @@ class MyAdapter(private val list: List<Item>, private val optionListener: IOptio
     }
 
     private abstract class OptionViewHolder(
-        private val binding: ViewBinding,
+        binding: ViewBinding,
         private val optionListener: IOptionListener
     ) : RecyclerView.ViewHolder(binding.root) {
 
-        protected abstract val icon: ImageView
-        protected abstract val title: TextView
-        protected abstract val selectedText: TextView
+        protected abstract val icon: ImageView?
+        protected abstract val title: TextView?
+        protected abstract val selectedText: TextView?
 
         fun bind(option: Option, position: Int) {
-            icon.setImageResource(option.icon)
-            title.text = option.title
-            selectedText.text = if (option.isSelected) "selected" else "unselected"
-            binding.root.setOnClickListener { optionListener.onClick(option) }
-            binding.root.setOnLongClickListener {
+            icon?.setImageResource(option.icon)
+            title?.text = option.title
+            selectedText?.text = if (option.isSelected) "selected" else "unselected"
+            itemView.setOnClickListener { optionListener.onClick(option) }
+            itemView.setOnLongClickListener {
                 optionListener.onLongClick(option, position)
                 true
             }
