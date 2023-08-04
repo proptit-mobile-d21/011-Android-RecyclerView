@@ -118,15 +118,10 @@ class RecyclerViewFragment : Fragment() {
                 mLayoutManager = LinearLayoutManager(activity)
                 mCurrentLayoutManagerType = LayoutManagerType.LINEAR_LAYOUT_MANAGER
             }
-
-            else -> {
-                mLayoutManager = LinearLayoutManager(activity)
-                mCurrentLayoutManagerType = LayoutManagerType.LINEAR_LAYOUT_MANAGER
-            }
         }
         mRecyclerView.layoutManager = mLayoutManager
     }
 
-    fun AssetManager.readAssetsFile(fileName : String): String = open(fileName).bufferedReader().use{it.readText()}
+    private fun AssetManager.readAssetsFile(fileName : String): String = open(fileName).bufferedReader().use{it.readText()}
 
 }
