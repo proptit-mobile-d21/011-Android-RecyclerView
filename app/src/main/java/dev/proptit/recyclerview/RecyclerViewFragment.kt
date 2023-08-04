@@ -19,7 +19,7 @@ import dev.proptit.recyclerview.databinding.FragmentRecyclerViewBinding
 private const val ARG_PARAM1 = "param1"
 private const val ARG_PARAM2 = "param2"
 private const val DATASET_COUNT = 11
-private const val SPAN_COUNT = 2
+private const val SPAN_COUNT = 3
 
 /**
  * A simple [Fragment] subclass.
@@ -129,6 +129,15 @@ class RecyclerViewFragment : Fragment() {
             LayoutManagerType.GRID_LAYOUT_MANAGER -> {
                 mLayoutManager = GridLayoutManager(activity, SPAN_COUNT)
                 mCurrentLayoutManagerType = LayoutManagerType.GRID_LAYOUT_MANAGER
+                (mLayoutManager as GridLayoutManager).spanSizeLookup = object : GridLayoutManager.SpanSizeLookup() {
+                    override fun getSpanSize(position: Int): Int {
+                        return when (mCustomAdapter.getItemViewType(position)) {
+                            ViewType.SECTION_SET.viewType -> (mLayoutManager as GridLayoutManager).spanCount
+                            ViewType.DATA_SET.viewType -> 1
+                            else -> 1
+                        }
+                    }
+                }
             }
 
             LayoutManagerType.LINEAR_LAYOUT_MANAGER -> {

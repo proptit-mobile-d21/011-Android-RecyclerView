@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import android.widget.Toast
+import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.imageview.ShapeableImageView
 
@@ -22,10 +23,11 @@ class CustomAdapter(private val mDataSet : Array<DataSet>?, private val mSection
                 val view = LayoutInflater.from(parent.context).inflate(R.layout.text_row_section_item, parent, false)
                 return SectionTypeViewHolder(view)
             }
-            else -> {
+            ViewType.DATA_SET.viewType-> {
                 val view = LayoutInflater.from(parent.context).inflate(R.layout.text_row_content_item, parent, false)
                 DataTypeViewHolder(view)
             }
+            else -> throw IllegalArgumentException("Invalid view type")
         }
     }
 
@@ -47,7 +49,7 @@ class CustomAdapter(private val mDataSet : Array<DataSet>?, private val mSection
                 when(position){
                     0 -> setTitleTextView(mSectionSet?.get(0)?.mTitle ?: "Null")
                     9 -> setTitleTextView(mSectionSet?.get(1)?.mTitle ?: "Null")
-                    13 -> setTitleTextView(mSectionSet?.get(2)?.mTitle ?: "Null")
+                    12 -> setTitleTextView(mSectionSet?.get(2)?.mTitle ?: "Null")
                 }
 
             }
