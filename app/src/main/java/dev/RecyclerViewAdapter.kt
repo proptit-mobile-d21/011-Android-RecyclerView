@@ -7,13 +7,15 @@ import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
+import com.example.android_recyclerview.databinding.ItemBinding
 import com.example.android_recyclerview.model.Data
 
 class RecyclerViewAdapter (private val itemList : ArrayList<Data>) : RecyclerView.Adapter<RecyclerViewAdapter.ViewHolder>(){
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        val itemView = LayoutInflater.from(parent.context).inflate(R.layout.item,parent,false)
-        return ViewHolder(itemView)
+        //val itemView = LayoutInflater.from(parent.context).inflate(R.layout.item,parent,false)
+        val binding = ItemBinding.inflate(LayoutInflater.from(parent.context),parent,false)
+        return ViewHolder(binding)
     }
 
     override fun getItemCount(): Int {
@@ -35,10 +37,10 @@ class RecyclerViewAdapter (private val itemList : ArrayList<Data>) : RecyclerVie
             Toast.makeText(holder.itemView.context,"${currentItem.mName} click", Toast.LENGTH_SHORT).show()
         }
     }
-    class ViewHolder(itemView : View) : RecyclerView.ViewHolder(itemView){
-        val name: TextView = itemView.findViewById(R.id.item_name)
-        val image: ImageView = itemView.findViewById(R.id.item_image)
-        val des: TextView = itemView.findViewById(R.id.item_des)
+    class ViewHolder(itemView : ItemBinding) : RecyclerView.ViewHolder(itemView.root){
+        val name: TextView = itemView.itemName
+        val image: ImageView = itemView.itemImage
+        val des: TextView = itemView.itemDes
 
     }
 
