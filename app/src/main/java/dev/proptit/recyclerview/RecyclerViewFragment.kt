@@ -108,7 +108,6 @@ class RecyclerViewFragment : Fragment() {
     }
 
     private fun setRecyclerViewLayoutManager(layoutManagerType: LayoutManagerType){
-
         when (layoutManagerType) {
             LayoutManagerType.GRID_LAYOUT_MANAGER -> {
                 mLayoutManager = GridLayoutManager(activity, SPAN_COUNT)
