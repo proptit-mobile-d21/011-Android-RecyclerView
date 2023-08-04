@@ -41,7 +41,9 @@ class RecyclerViewFragment : Fragment() {
     private lateinit var mCustomAdapter: CustomAdapter
     private lateinit var mLayoutManager: LayoutManager
     private lateinit var mCurrentLayoutManagerType: LayoutManagerType
-    private var mDataSet: Array<DataSet>? = null
+    private lateinit var mDataSet : Array<DataSet>
+    private lateinit var mSectionSet : Array<SectionSet>
+    private var mItemnSet =  mutableListOf<RecyclerViewItem>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -50,7 +52,7 @@ class RecyclerViewFragment : Fragment() {
             param1 = it.getString(ARG_PARAM1)
             param2 = it.getString(ARG_PARAM2)
         }
-        initDataSet()
+        initSet()
     }
 
     override fun onCreateView(
@@ -62,7 +64,8 @@ class RecyclerViewFragment : Fragment() {
         mRecyclerView = rootView.findViewById(R.id.recycler_view)
         mCurrentLayoutManagerType = LayoutManagerType.LINEAR_LAYOUT_MANAGER
         setRecyclerViewLayoutManager(mCurrentLayoutManagerType)
-        mCustomAdapter = CustomAdapter(mDataSet)
+        mCustomAdapter = CustomAdapter(mDataSet, mSectionSet)
+        mCustomAdapter.itemSet = mItemnSet
         mRecyclerView.adapter = mCustomAdapter
         return rootView
     }
@@ -101,10 +104,24 @@ class RecyclerViewFragment : Fragment() {
             }
     }
 
-    private fun initDataSet() {
+    private fun initSet() {
         val gson = Gson()
-        val json = this.requireContext().assets.readAssetsFile("items.json")
+        var json = this.requireContext().assets.readAssetsFile("items.json")
         mDataSet = gson.fromJson(json, Array<DataSet>::class.java)
+        json = this.requireContext().assets.readAssetsFile("sections.json")
+        mSectionSet = gson.fromJson(json, Array<SectionSet>::class.java)
+
+        mItemnSet.apply {
+            mItemnSet.add(mSectionSet[0])
+            for(i in 0..7){
+                mItemnSet.add(mDataSet[i])
+            }
+            mItemnSet.add(mSectionSet[1])
+            mItemnSet.add(mDataSet[8])
+            mItemnSet.add(mDataSet[9])
+            mItemnSet.add(mSectionSet[2])
+            mItemnSet.add(mDataSet[10])
+        }
     }
 
     private fun setRecyclerViewLayoutManager(layoutManagerType: LayoutManagerType){
