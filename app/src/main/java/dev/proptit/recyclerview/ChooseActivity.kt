@@ -24,7 +24,8 @@ class ChooseActivity : AppCompatActivity(), OnItemClickListener {
             DataItemGrid(R.mipmap.herta_space_station_foreground, "HERTA SPACE STATION"),
             DataItemGrid(R.mipmap.belobog_foreground,"BELOBOG"),
             DataItemGrid(R.mipmap.xianzhou_the_loufu_foreground, "XIANZHOU : THE LOUFU"),
-            DataItemGrid(R.mipmap.stellaron_hunter_foreground, "STELLARON HUNTER")
+            DataItemGrid(R.mipmap.stellaron_hunter_foreground, "STELLARON HUNTER"),
+            DataItemGrid(R.mipmap.team_foreground,"MY TEAM")
         )
         val adapter = GridViewAdapter(data,this)
         recyclerView.adapter = adapter

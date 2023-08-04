@@ -7,11 +7,6 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 
-data class DataItemGrid(
-    val imageResId: Int,
-    val name: String,
-)
-
 class GridViewAdapter(
     private val data: List<DataItemGrid>,
     private val itemClickListener: ChooseActivity
