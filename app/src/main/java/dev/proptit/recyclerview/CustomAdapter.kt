@@ -47,7 +47,7 @@ class CustomAdapter(private val mDataSet : Array<DataSet>?) : RecyclerView.Adapt
             if (position >= 0) {
                 val selectedItem = dataSet?.get(position)
                 if (selectedItem?.mIsSelected == true) {
-                    Toast.makeText(view?.context, "Item ${layoutPosition + 1} deselected", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(view?.context, "Item ${layoutPosition + 1} unselected", Toast.LENGTH_SHORT).show()
                     selectedItem.mIsSelected = false
                     setSelectedTextView("unselected")
                 } else {
@@ -62,7 +62,7 @@ class CustomAdapter(private val mDataSet : Array<DataSet>?) : RecyclerView.Adapt
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        val view = LayoutInflater.from(parent.context).inflate(R.layout.text_row_item, parent, false)
+        val view = LayoutInflater.from(parent.context).inflate(R.layout.text_row_content_item, parent, false)
         return ViewHolder(view, mDataSet)
     }
 

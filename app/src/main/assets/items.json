@@ -1,67 +1,67 @@
 [
   {
     "mTitle": "Title 1",
-    "mSelected": "Deselected",
+    "mSelected": "unselected",
     "mImageName": "image_1",
     "mIsSelected": false
   },
   {
     "mTitle": "Title 2",
-    "mSelected": "Deselected",
+    "mSelected": "unselected",
     "mImageName": "image_2",
     "mIsSelected": false
   },
   {
     "mTitle": "Title 3",
-    "mSelected": "Deselected",
+    "mSelected": "unselected",
     "mImageName": "image_3",
     "mIsSelected": false
   },
   {
     "mTitle": "Title 4",
-    "mSelected": "Deselected",
+    "mSelected": "unselected",
     "mImageName": "image_4",
     "mIsSelected": false
   },
   {
     "mTitle": "Title 5",
-    "mSelected": "Deselected",
+    "mSelected": "unselected",
     "mImageName": "image_5",
     "mIsSelected": false
   },
   {
     "mTitle": "Title 6",
-    "mSelected": "Deselected",
+    "mSelected": "unselected",
     "mImageName": "image_6",
     "mIsSelected": false
   },
   {
     "mTitle": "Title 7",
-    "mSelected": "Deselected",
+    "mSelected": "unselected",
     "mImageName": "image_7",
     "mIsSelected": false
   },
   {
     "mTitle": "Title 8",
-    "mSelected": "Deselected",
+    "mSelected": "unselected",
     "mImageName": "image_8",
     "mIsSelected": false
   },
   {
     "mTitle": "Title 9",
-    "mSelected": "Deselected",
+    "mSelected": "unselected",
     "mImageName": "image_9",
     "mIsSelected": false
   },
   {
     "mTitle": "Title 10",
-    "mSelected": "Deselected",
+    "mSelected": "unselected",
     "mImageName": "image_10",
     "mIsSelected": false
   },
   {
     "mTitle": "Title 11",
-    "mSelected": "Deselected",
+    "mSelected": "unselected",
     "mImageName": "image_11",
     "mIsSelected": false
   }
