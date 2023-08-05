@@ -3,6 +3,7 @@ package dev.proptit.recyclerview
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Button
+import android.widget.Toast
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -11,8 +12,9 @@ import dev.proptit.recyclerview.model.data.Item
 import dev.proptit.recyclerview.model.adapter.ItemAdapter
 import dev.proptit.recyclerview.model.adapter.ItemAdapter.Companion.FIRST_VIEW
 import dev.proptit.recyclerview.model.adapter.ItemAdapter.Companion.SECOND_VIEW
+import dev.proptit.recyclerview.util.ClickListener
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity(), ClickListener {
     private lateinit var binding : ActivityMainBinding
     private lateinit var itemList: MutableList<Item>
     private lateinit var rvItem: RecyclerView
@@ -47,11 +49,25 @@ class MainActivity : AppCompatActivity() {
                 Item(SECOND_VIEW, "Sticky Header ${i+1}",resources.getString(R.string.unselected), R.drawable.ava_panda, false)
             }else Item(FIRST_VIEW,"Title ${i+1}",resources.getString(R.string.unselected), R.drawable.ava_panda, false)
         }
-        adapter = ItemAdapter(itemList)
+        adapter = ItemAdapter(
+            itemList,
+            onSingleClick = {onSingleClickListener(it)},
+            onLongClick = {onLongClickListener(it)},
+            this
+        )
         rvItem = binding.rvItemList
 
         rvItem.adapter = adapter
         rvItem.layoutManager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
     }
+
+    override fun onSingleClickListener(item: Item) {
+
+    }
+
+    override fun onLongClickListener(item: Item) {
+
+    }
+
 
 }

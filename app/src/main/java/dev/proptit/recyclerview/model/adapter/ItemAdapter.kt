@@ -9,9 +9,13 @@ import dev.proptit.recyclerview.R
 import dev.proptit.recyclerview.databinding.ItemViewBinding
 import dev.proptit.recyclerview.databinding.StickyHeaderBinding
 import dev.proptit.recyclerview.model.data.Item
+import dev.proptit.recyclerview.util.ClickListener
 
 class ItemAdapter(
     private val items: MutableList<Item>,
+    private val onSingleClick: ((item: Item) -> Unit),
+    private val onLongClick: ((item: Item) -> Unit),
+    private val listener: ClickListener
 ) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     companion object{
@@ -24,7 +28,7 @@ class ItemAdapter(
         val layoutInflater = LayoutInflater.from(parent.context)
 
         return when(viewType){
-            FIRST_VIEW -> FirstViewHolder(ItemViewBinding.inflate(layoutInflater, parent, false), items)
+            FIRST_VIEW -> FirstViewHolder(ItemViewBinding.inflate(layoutInflater, parent, false), items, listener)
             SECOND_VIEW -> SecondViewHolder(StickyHeaderBinding.inflate(layoutInflater, parent, false))
             else -> throw IllegalArgumentException(viewType.toString())
         }
@@ -37,14 +41,6 @@ class ItemAdapter(
             else -> throw IllegalArgumentException("Invalid item type")
         }
     }
-
-//    override fun onBindViewHolder(holder: ItemViewHolder, position: Int) {
-//        holder.binding.apply {
-//            tvTitle.text = items[position].title
-//            tvSubtitle.text = items[position].subtitle
-//            ivAvatar.setImageResource(items[position].image)
-//        }
-//    }
 
     override fun getItemCount(): Int {
         return items.size
