@@ -12,6 +12,7 @@ import dev.proptit.recyclerview.Adapter.ItemAdapter
 import dev.proptit.recyclerview.Listener.ItemListener
 import dev.proptit.recyclerview.Model.Topic
 import dev.proptit.recyclerview.databinding.ActivityMainBinding
+import java.util.Collections
 
 class MainActivity : AppCompatActivity() {
     private lateinit var binding : ActivityMainBinding
@@ -41,7 +42,7 @@ class MainActivity : AppCompatActivity() {
         initButton();
         initRecyclerView()
 
-         setUpSwipeActions()
+        setUpSwipeActions()
 
     }
     private fun initButton(){
@@ -65,28 +66,46 @@ class MainActivity : AppCompatActivity() {
     private fun initRecyclerView(){
         binding.recyclerView.adapter = ItemAdapter(itemData, object : ItemListener{
             override fun onItemClick(item : Topic.Item, position: Int) {
-                Toast.makeText(
-                    this@MainActivity,
-                    "${item.title} Clicked",
-                    Toast.LENGTH_SHORT
-                ).show()
+//                Toast.makeText(
+//                    this@MainActivity,
+//                    "${item.title} Clicked",
+//                    Toast.LENGTH_SHORT
+//                ).show()
             }
 
             override fun onItemLongClick(item : Topic.Item, position: Int) {
                 item.isSelected = item.isSelected xor true
                 binding.recyclerView.adapter?.notifyItemChanged(position)
-                Toast.makeText(
-                    this@MainActivity,
-                    item.title + if(item.isSelected) " Selected" else " Unselected",
-                    Toast.LENGTH_SHORT
-                ).show()
+//                Toast.makeText(
+//                    this@MainActivity,
+//                    item.title + if(item.isSelected) " Selected" else " Unselected",
+//                    Toast.LENGTH_SHORT
+//                ).show()
             }
-        })
+        }, { item->
+            Toast.makeText(
+                this@MainActivity,
+                item.title,
+                Toast.LENGTH_SHORT
+            ).show()
+           },
+            { item, position->
+                item.isSelected = item.isSelected xor true
+                binding.recyclerView.adapter?.notifyItemChanged(position)
+                Toast.makeText(
+                this@MainActivity,
+                item.title + if(item.isSelected) " Selected" else " Unselected",
+                Toast.LENGTH_SHORT
+                ).show()
+           }
+        )
+
+
     }
     private fun setUpSwipeActions(){
         val touchHelper = ItemTouchHelper(
             object : ItemTouchHelper.SimpleCallback(
-                0,
+                ItemTouchHelper.DOWN or ItemTouchHelper.UP,
                 ItemTouchHelper.LEFT or ItemTouchHelper.RIGHT
             ){
                 override fun onMove(
@@ -94,10 +113,12 @@ class MainActivity : AppCompatActivity() {
                     viewHolder: RecyclerView.ViewHolder,
                     target: RecyclerView.ViewHolder
                 ): Boolean {
+
 //                    val fromPosition = viewHolder.adapterPosition
 //                    val toPosition = target.adapterPosition
 //                    Collections.swap(itemData, fromPosition, toPosition)
 //                    binding.recyclerView.adapter?.notifyItemMoved(fromPosition, toPosition)
+
                     return false
                 }
 
@@ -125,5 +146,4 @@ class MainActivity : AppCompatActivity() {
     }
 
 }
-
 
