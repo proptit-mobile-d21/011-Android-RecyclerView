@@ -1,7 +1,9 @@
 package dev.proptit.recyclerview
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import dev.proptit.recyclerview.databinding.ActivityMainBinding
@@ -11,12 +13,37 @@ class MainActivity : AppCompatActivity() {
     private lateinit var itemRecyclerView: RecyclerView
 
     private lateinit var itemAdapter: ItemAdapter
+    @SuppressLint("NotifyDataSetChanged")
     override fun onCreate(savedInstanceState: Bundle?) {
         binding = ActivityMainBinding.inflate(layoutInflater)
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
 
         initComponent()
+
+        binding.listbutton.setOnClickListener {
+            if(itemAdapter.usingGridLayout){
+                itemRecyclerView.layoutManager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
+                itemAdapter.usingGridLayout = false
+                itemAdapter.notifyDataSetChanged()
+            }
+        }
+
+        binding.gridbutton.setOnClickListener {
+            if(!itemAdapter.usingGridLayout){
+                val layout = GridLayoutManager(this, 3)
+                layout.spanSizeLookup = object : GridLayoutManager.SpanSizeLookup(){
+                    override fun getSpanSize(position: Int): Int {
+                        return if(itemAdapter.getItemViewType(position) == ItemAdapter.DATA_HEADER)
+                            layout.spanCount
+                        else 1
+                    }
+                }
+                itemRecyclerView.layoutManager= layout
+                itemAdapter.usingGridLayout = true
+                itemAdapter.notifyDataSetChanged()
+            }
+        }
     }
 
 
