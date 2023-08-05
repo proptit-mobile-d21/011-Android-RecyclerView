@@ -1,3 +1,29 @@
 <resources>
-    <string name="app_name">Recycler View</string>
+    <string name="app_name">Demo RecyclerView</string>
+    <string name="list_layout">List layout</string>
+    <string name="grid_layout">Grid layout</string>
+
+    <string name="title1">Title 1</string>
+    <string name="title2">Title 2</string>
+    <string name="title3">Title 3</string>
+    <string name="title4">Title 4</string>
+    <string name="title5">Title 5</string>
+    <string name="title6">Title 6</string>
+    <string name="title7">Title 7</string>
+    <string name="title8">Title 8</string>
+    <string name="title9">Title 9</string>
+    <string name="title10">Title 10</string>
+    <string name="title11">Title 11</string>
+
+    <string name="des1">Description 1</string>
+    <string name="des2">Description 2</string>
+    <string name="des3">Description 3</string>
+    <string name="des4">Description 4</string>
+    <string name="des5">Description 5</string>
+    <string name="des6">Description 6</string>
+    <string name="des7">Description 7</string>
+    <string name="des8">Description 8</string>
+    <string name="des9">Description 9</string>
+    <string name="des10">Description 10</string>
+    <string name="des11">Description 11</string>
 </resources>
